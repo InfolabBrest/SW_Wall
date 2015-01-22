@@ -1,0 +1,151 @@
+html, body, .container, .row, .col-md-8 {
+    height: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    margin: 0;
+}
+
+.events, .gsb {
+    height: 50%;
+    margin-right: 360px;
+}
+
+.events {
+    background: #343434;
+}
+
+.gsb {
+    position: relative;
+    width: 300px;
+    overflow: hidden;
+}
+
+.gsb .logo {
+    position: absolute;
+    left: 50%;
+    margin-top: 8px;
+    margin-left: -186px;
+
+}
+
+.gsb #ranking {
+    position: relative;
+    height: 100%;
+    margin-top: 74px;
+    background: #00d0a7;
+}
+
+.gsb #ranking .rank {
+    position: relative;
+    padding: 16px 72px;
+    min-height: 24px;
+    line-height: 24px;
+}
+
+.gsb #ranking .rank .index {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 72px;
+    bottom: 0;
+    font-weight: bold;
+}
+
+.gsb #ranking .rank .index span {
+    background: #ffffff;
+    display: block;
+    margin: 8px 16px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.gsb #ranking .rank .hash {
+    font-size: 22px;
+}
+
+.gsb #ranking .rank .score {
+    display: inline-block;
+    position: absolute;
+    right: 16px;
+}
+
+.gsb #ranking .rank .underline {
+    position: absolute;
+    bottom: 0;
+    left: 72px;
+    right: 0;
+    height: 1px;
+    background: lightgrey;
+}
+
+.coffee {
+    background: burlywood;
+    position: absolute;
+    top: 50%;
+    left: 300px;
+    right: 360px;
+    bottom: 0;
+}
+
+#tweets {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 360px;
+}
+
+.tweet {
+    position: relative;
+    overflow: auto;
+    padding: 16px 16px 20px 0;
+}
+
+.tweet .pic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 72px;
+    bottom: 0;
+}
+
+.tweet img {
+    /*position: absolute;
+    top: 50%;*/
+    margin-top: 16px;
+    margin-left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.tweet .content {
+    margin-left: 72px;
+}
+
+.tweet .content .underline {
+    position: absolute;
+    bottom: 0;
+    left: 72px;
+    right: 0;
+    height: 1px;
+    background: lightgrey;
+}
+
+.tweet h1 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.tweet h2 {
+    float: left;
+    font-size: 12px;
+    margin-top: 0;
+}
+
+.tweet p span {
+    color: gray;
+}
