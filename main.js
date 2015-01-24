@@ -16,7 +16,8 @@ var Twitter = require('node-tweet-stream'),
     cityzendata_url = config.cityzendata.api_url,
     cityzendata_class = config.cityzendata.classname,
     request = require('request'),
-    urlencode = require('urlencode');
+    urlencode = require('urlencode'),
+    raw_data;
 
 /************************************************************************************************************************
  * Server Setup
@@ -148,24 +149,18 @@ function EinsteinMaker(start,stop) {
  * @return {[type]} data fetch
  */
 function fetchCityzenData(einstein_script){
-    var reponse;
-
-    console.log("fetching CD");
-    console.log(einstein_script);
 
     request.post({
         'content-type': 'text/plain;charset=UTF-8',
         url : cityzendata_url,
         encoding : "utf8",
         form : einstein_script
-    }, function(error, response, body){
-    //             if (!error && response.statusCode == 200) {
-    //             console.log(body) 
-    //             }
-        reponse = console.log(body);
+    }, function httpcallback(error, response, body){
+                if (!error && response.statusCode == 200) {
+                    raw_data = body;
+                }
     });
 
-    return reponse;
 }
 
 // Test
