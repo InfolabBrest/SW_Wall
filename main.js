@@ -11,7 +11,9 @@ var Twitter = require('node-tweet-stream'),
     server = require('http').createServer(app),
     morgan = require('morgan'),
     io = require('socket.io')(server),
-    _ = require('lodash');
+    _ = require('lodash'),
+    cityzendata_token = config.cityzendata.token,
+    cityzendata_class = config.cityzendata.classname;
 
 /************************************************************************************************************************
  * Server Setup
@@ -110,3 +112,30 @@ t.on('tweet', function (tweet) {
 t.on('error', function (err) {
     console.log('Oh no')
 });
+
+
+/************************************************************************************************************************
+ * CityzenData Functions
+ ************************************************************************************************************************/
+
+
+/**
+ * [EinsteinMaker creates the Einstein request and return it]
+ * @param {string} classname  
+ * The start and end timestamps are in ISO8601 format, i.e. YYYY-MM-DDTHH:MM:SS.SSSSSSZ
+ * @param {string} start
+ * @param {string} stop
+ * @return {string} einstein_script
+ */
+function EinsteinMaker(start,stop) {
+
+    var script =  
+        "'"+cityzendata_token+"'\n"+
+        "'"+cityzendata_class+"'\n"+
+        "'"+"0 ->MAP"+"'\n"+
+        "'"+start+"'\n"+
+        "'"+stop+"'\n"+
+        "'"+"5 ->LIST"+"'\n"+
+        "'"+"FETCH"+"'\n";
+    return script;
+}
