@@ -1,17 +1,17 @@
 var Twitter = require('node-tweet-stream'),
+    config = require('./config.json'),
     t = new Twitter({
-        consumer_key: '',
-        consumer_secret: '',
-        token: '',
-        token_secret: ''
+        consumer_key: config.twitter.consumer_key,
+        consumer_secret: config.twitter.consumer_secret,
+        token: config.twitter.token,
+        token_secret: config.twitter.token_secret
     }),
     express = require('express'),
     app = express(),
     server = require('http').createServer(app),
     morgan = require('morgan'),
     io = require('socket.io')(server),
-    _ = require('lodash'),
-    config = require('./config.json');
+    _ = require('lodash');
 
 /************************************************************************************************************************
  * Server Setup
