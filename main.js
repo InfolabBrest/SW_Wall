@@ -13,7 +13,10 @@ var Twitter = require('node-tweet-stream'),
     io = require('socket.io')(server),
     _ = require('lodash'),
     cityzendata_token = config.cityzendata.token,
-    cityzendata_class = config.cityzendata.classname;
+    cityzendata_url = config.cityzendata.api_url,
+    cityzendata_class = config.cityzendata.classname,
+    request = require('request'),
+    urlencode = require('urlencode');
 
 /************************************************************************************************************************
  * Server Setup
@@ -132,10 +135,38 @@ function EinsteinMaker(start,stop) {
     var script =  
         "'"+cityzendata_token+"'\n"+
         "'"+cityzendata_class+"'\n"+
-        "'"+"0 ->MAP"+"'\n"+
-        "'"+start+"'\n"+
-        "'"+stop+"'\n"+
-        "'"+"5 ->LIST"+"'\n"+
-        "'"+"FETCH"+"'\n";
+        "0 ->MAP\n"+
+        "'"+encodeURIComponent(start)+"'\n"+
+        "'"+encodeURIComponent(stop)+"'\n"+
+        "5 ->LIST\n"+
+        "FETCH";
     return script;
 }
+/**
+ * [fetchCityzenData fetch data from CityzenData]
+ * @param  {String} einstein script
+ * @return {[type]} data fetch
+ */
+function fetchCityzenData(einstein_script){
+    var reponse;
+
+    console.log("fetching CD");
+    console.log(einstein_script);
+
+    request.post({
+        'content-type': 'text/plain;charset=UTF-8',
+        url : cityzendata_url,
+        encoding : "utf8",
+        form : einstein_script
+    }, function(error, response, body){
+    //             if (!error && response.statusCode == 200) {
+    //             console.log(body) 
+    //             }
+        reponse = console.log(body);
+    });
+
+    return reponse;
+}
+
+// Test
+fetchCityzenData(EinsteinMaker("2013-01-12T10:02:00+01:00","2016-01-12T10:08:10+01:00"));
