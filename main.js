@@ -17,7 +17,7 @@ var Twitter = require('node-tweet-stream'),
     cityzendata_class = config.cityzendata.classname,
     request = require('request'),
     urlencode = require('urlencode'),
-    raw_data;
+    data_bearing = config.cityzendata.bearing;
 
 /************************************************************************************************************************
  * Server Setup
@@ -122,7 +122,6 @@ t.on('error', function (err) {
  * CityzenData Functions
  ************************************************************************************************************************/
 
-
 /**
  * [EinsteinMaker creates the Einstein request and return it]
  * @param {string} classname  
@@ -148,6 +147,9 @@ function EinsteinMaker(start,stop) {
  * @param  {String} einstein script
  * @return {[type]} data fetch
  */
+
+// Test
+fetchCityzenData(EinsteinMaker("2013-01-12T10:02:00+01:00","2016-01-12T10:08:10+01:00"));
 function fetchCityzenData(einstein_script){
 
     request.post({
@@ -157,11 +159,47 @@ function fetchCityzenData(einstein_script){
         form : einstein_script
     }, function httpcallback(error, response, body){
                 if (!error && response.statusCode == 200) {
-                    raw_data = body;
+                    retrieveFirstPick(JSON.parse(body));
                 }
     });
 
 }
+/**
+ * [retrieveFirstPick cleans the array by retrieving first pick]
+ * @param  {[type]} raw_data [description]
+ * @return {[type]}          [description]
+ * https://api0.cityzendata.net/doc/api/gts-output-format
+ */
+function retrieveFirstPick(raw_data){
 
-// Test
-fetchCityzenData(EinsteinMaker("2013-01-12T10:02:00+01:00","2016-01-12T10:08:10+01:00"));
+    var data = new Array;
+    var first = true;
+
+    // Retrieve first pick
+    raw_data[0][0].v.forEach(function (element, index, array) {
+        if (index!=0) {
+
+            //console.log("TS="+element[0] +" && VALUE="+element[1]);
+            
+            /**
+             * First if stands for the acceleration. If it decreases, 
+             * we need to take the n-1 value if first is true.
+             * Then a bearing is triggered, and it'll be set to true only
+             * if acceleration value goes under the bearing, 
+             */
+            if (element[1]<array[index-1][1] && first && element[1]>data_bearing) {
+                data[data.length] = [array[index-1][0],array[index-1][1]];
+                first = false;
+                //console.log("ajout de "+[array[index-1][0]+":"+array[index-1][1]]);
+            }else{
+                if (element[1]<data_bearing) {
+                    first = true;
+                };
+            };
+        };
+    }); 
+    console.log(data);
+}
+
+
+
