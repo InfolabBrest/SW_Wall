@@ -2,8 +2,7 @@
   "wall": [
     "#SWBrest",
     "Startup weekend Brest",
-    "@SW_Brest",
-
+    "@SW_Brest"
   ],
   "battle": [
     "SWBrest",
@@ -17,7 +16,7 @@
     "SWguntur",
     "SWChennai",
     "SWMukalla",
-    "SWTucson",
+    "SWTucson"
   ],
   "twitter":{
     "consumer_key":"azerty",
