@@ -218,8 +218,15 @@ function sortingArray(data){
 
     var temp = top_10.concat(data);
     
-    temp.sort(function(a, b){return b-a});
-    
+    temp.sort(function compare(a, b) {
+          if (a[1]<b[1])
+             return 1;
+          if (a[1]>b[1])
+             return -1;
+          // a doit être égal à b
+          return 0;
+    });
+
     top_10=temp.slice(0,11);
     console.log(top_10);
 }
