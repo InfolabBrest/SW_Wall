@@ -6,7 +6,7 @@
 
   ],
   "battle": [
-    "#SWBrest"
+    "SWBrest"
     "SWDijon "
     "SWrifood ",
     "SWludhiana",
@@ -14,5 +14,9 @@
     "SWCologne"
     "SWEnsenada"
     "SWABC"
+    "SWguntur"
+    "SWChennai"
+    "SWMukalla"
+    "SWTucson"
   ]
 }
