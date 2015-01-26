@@ -1,0 +1,98 @@
+"SWBrest"
+Startup Weekend Brest
+http://brest.startupweekend.org 
+ISEN Brest. 
+20 Rue Cuirassé Bretagne
+29200 Brest
+France
+
+suggestions
+Googlemap GEOLOC coordinates : 48.418536, -4.494306
+COLOR code : #D2C700
+
+-------------------
+"SWDijon"
+Startup Weekend Dijon
+http://www.up.co/communities/france/dijon
+ESC Dijon Bourgogne
+29 rue Sambin
+Dijon, Bourgogne 
+
+suggestions
+Googlemap GEOLOC coordinates : 47.328021, 5.040781
+COLOR code : #3FD1C7
+
+-------------------
+"SWCologne"
+Startup Weekend Cologne
+http://www.up.co/communities/germany/cologne-germany/startup-weekend/5356
+Startplatz
+Im Mediapark 5
+Köln, NRW 
+
+suggestions
+Googlemap GEOLOC coordinates : 50.948573, 6.944990
+COLOR code : #D30000
+
+-------------------
+"SWTucson"
+Startup Weekend Tucson
+http://www.up.co/communities/usa/tucson/startup-weekend/5540
+UA Science and Engineering Library
+744 N. Highland Ave.
+Tucson, AZ 85721 
+
+suggestions
+Googlemap GEOLOC coordinates : 32.229159, -110.951081
+COLOR code : #F04F2B
+
+-------------------
+"SWABC"
+Startup ABC
+http://www.up.co/communities/brazil/abc/startup-weekend/5204
+Universidade Metodista - Campus Vergueiro
+Av. Senador Vergueiro, 1301 - Jardim do Mar
+São Bernardo do Campo, São Paulo 09750-001 
+
+suggestions
+Googlemap GEOLOC coordinates : -23.683546, -46.556072
+COLOR code : #C4D226
+
+-------------------
+"SWChennai"
+Startup Weekend Chennai - Kurukshetra Edition
+http://www.up.co/communities/india/chennai/startup-weekend/5466  
+College of Engineering Guindy
+Anna University
+Sardar Patel Road
+Chennai, Tamil Nadu 600092
+
+suggestions
+Googlemap GEOLOC coordinates : 13.012988, 80.240219
+COLOR code : #27C870
+
+-------------------
+"SWguntur"
+Startup Weekend Guntur 
+http://www.up.co/communities/india/guntur-india/startup-weekend/5583
+KL University
+Green Fields,Vaddeswaram,
+Guntur District, A.P. INDIA
+District, A.P. INDIA, ANDHRA PRADESH 522502
+
+suggestions
+Googlemap GEOLOC coordinates : 16.441729, 80.621800
+COLOR code : #32D7C1
+
+-------------------
+"SWMukalla"
+Startup Weekend Mukalla 
+http://www.up.co/communities/yemen/mukalla/startup-weekend/4547
+Ramada Almukalla Hotel
+Mukalla, Yemen 00967
+
+suggestions
+Googlemap GEOLOC coordinates : 14.546628, 49.128384
+COLOR code : #27C870
+
+-------------------
