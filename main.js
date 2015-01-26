@@ -17,7 +17,8 @@ var Twitter = require('node-tweet-stream'),
     cityzendata_class = config.cityzendata.classname,
     request = require('request'),
     urlencode = require('urlencode'),
-    data_bearing = config.cityzendata.bearing;
+    data_bearing = config.cityzendata.bearing,
+    top_10 = new Array();
 
 /************************************************************************************************************************
  * Server Setup
@@ -198,8 +199,26 @@ function retrieveFirstPick(raw_data){
             };
         };
     }); 
-    console.log(data);
+    sortingArray(data);
 }
 
+function test_top10_value(){
+    top_10.push([12345678910, 99999 ]);
+}
 
+/**
+ * This function is handling the contest between candidates.
+ * Top 10 is in the array named top_10
+ * @param  {[type]} data [description]
+ */
+function sortingArray(data){
 
+    test_top10_value();
+
+    var temp = top_10.concat(data);
+    
+    temp.sort(function(a, b){return b-a});
+    
+    top_10=temp.slice(0,11);
+    console.log(top_10);
+}
