@@ -151,6 +151,7 @@ function EinsteinMaker(start,stop) {
 
 // Test
 fetchCityzenData(EinsteinMaker("2013-01-12T10:02:00+01:00","2016-01-12T10:08:10+01:00"));
+
 function fetchCityzenData(einstein_script){
 
     request.post({
@@ -222,3 +223,11 @@ function sortingArray(data){
     top_10=temp.slice(0,11);
     console.log(top_10);
 }
+
+/************************************************************************************************************************
+ * Routing function for PunchingBall
+ ************************************************************************************************************************/
+
+app.get('/punchingball/top10', function (req, res) {
+  res.send(top_10);
+})
