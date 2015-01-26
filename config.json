@@ -1,22 +1,33 @@
 {
   "wall": [
     "#SWBrest",
-    "Startup weekend Brest"
-    "@SW_Brest"
+    "Startup weekend Brest",
+    "@SW_Brest",
 
   ],
   "battle": [
-    "SWBrest"
-    "SWDijon "
+    "SWBrest",
+    "SWDijon ",
     "SWrifood ",
     "SWludhiana",
-    "SWludhiana"
-    "SWCologne"
-    "SWEnsenada"
-    "SWABC"
-    "SWguntur"
-    "SWChennai"
-    "SWMukalla"
-    "SWTucson"
-  ]
+    "SWludhiana",
+    "SWCologne",
+    "SWEnsenada",
+    "SWABC",
+    "SWguntur",
+    "SWChennai",
+    "SWMukalla",
+    "SWTucson",
+  ],
+  "twitter":{
+    "consumer_key":"azerty",
+    "token":"super token",
+    "token_secret":"super token secret"
+  },
+  "cityzendata":{
+    "api_url":"http://api0.cityzendata.net/api/v0/exec/einstein",
+    "token":"token",
+    "classname":"swbrest.punchingball",
+    "bearing":100
+  }
 }
