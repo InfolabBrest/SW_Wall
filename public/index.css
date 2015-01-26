@@ -149,3 +149,27 @@ html, body, .container, .row, .col-md-8 {
 .tweet p span {
     color: gray;
 }
+
+/* Je sélectionne les <li> du menu horizontal */
+ul#top_horizontal li { 
+display : inline-block;
+padding : 0 0.5em; /* Pour espacer les boutons entre eux */
+}
+ul#top_horizontal {
+
+    float: left;
+    text-align: center;
+    list-style-type : none; /* Car sinon les puces se placent n'importe où */
+    width: 70%;
+}
+ul#top_vertical {
+
+    float: right;
+    text-align: center;
+    list-style-type : none; /* Car sinon les puces se placent n'importe où */
+    width: 20%;
+}
+
+.top_element{
+    display: inline-block;
+}
