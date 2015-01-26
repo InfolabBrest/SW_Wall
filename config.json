@@ -1,11 +1,18 @@
 {
   "wall": [
-    "pizza",
-    "ToutEstPossible"
+    "#SWBrest",
+    "Startup weekend Brest"
+    "@SW_Brest"
+
   ],
   "battle": [
-    "pizza",
-    "nodejs",
-    "pasta"
+    "#SWBrest"
+    "SWDijon "
+    "SWrifood ",
+    "SWludhiana",
+    "SWludhiana"
+    "SWCologne"
+    "SWEnsenada"
+    "SWABC"
   ]
 }
