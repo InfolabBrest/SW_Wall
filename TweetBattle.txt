@@ -56,7 +56,7 @@ São Bernardo do Campo, São Paulo 09750-001
 
 suggestions
 Googlemap GEOLOC coordinates : -23.683546, -46.556072
-COLOR code : #C4D226
+COLOR code : #A8167F
 
 -------------------
 "SWChennai"
