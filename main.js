@@ -15,12 +15,14 @@ var Twitter = require('node-tweet-stream'),
     cityzendata_token = config.cityzendata.token,
     cityzendata_url = config.cityzendata.api_url,
     cityzendata_class_punchingball = config.cityzendata.classname_punchingball,
+    cityzendata_class_url = config.cityzendata.classname_url,
+    cityzendata_class_player = config.cityzendata.classname_player,
     request = require('request'),
     urlencode = require('urlencode'),
-    data_bearing = config.cityzendata.bearing,
-    top_10 = new Array(),
+    top_3 = new Array(),
     fs = require('fs'),
-    einstein_raw_script;
+    einstein_raw_script,
+    lastfetch;
 
 
 /************************************************************************************************************************
@@ -121,27 +123,41 @@ t.on('error', function (err) {
     console.log('Oh no')
 });
 
-
 /************************************************************************************************************************
- * CityzenData Functions
+ * CityzenData RUNTIME
  ************************************************************************************************************************/
-
-/**
- * [creates the Einstein request]
- */
 fs.readFile('script.einstein', 'utf8', function (err,data) {
   if (err) {
     return console.log(err);
   }
     einstein_raw_script = data;
     einstein_raw_script = einstein_raw_script.replace("_TOKEN_",cityzendata_token);
-
-    fetchCityzenData(cityzendata_class_punchingball,1000000);
 });
+
+setInterval(function() {
+
+        var punchingball = fetchCityzenData(cityzendata_class_punchingball,30*1000);
+        var url = fetchCityzenData(cityzendata_class_url,30*1000);
+        var player = fetchCityzenData(cityzendata_class_player,30*1000);
+
+        // Retrieve array of [TS,VALUE]
+        var data = retrieveIntegralValue(punchingball);
+        // Retrieve array of [TS,VALUE,URL]
+        data = findURL(data,url);
+        // Retrieve array of [TS,VALUE,URL,PLAYER_INFO]
+        data = findPlayerInfo(data,player);
+
+        // Add data to top 3
+        sortingArray(data);
+
+    }, 30*1000);
+/************************************************************************************************************************
+ * CityzenData Functions
+ ************************************************************************************************************************/
 
 /**
  * [fetchCityzenData fetch Cityzen API]
- * @param  {[type]} start [start in sec]
+ * @param  {[type]} TS of start in ms
  * @param  metric name
  */
 function fetchCityzenData(metric,start){
@@ -149,7 +165,7 @@ function fetchCityzenData(metric,start){
     var script = einstein_raw_script;
 
     script = script.replace("_CLASS_",metric);
-    script = script.replace("_TIME_",start*1000);
+    script = script.replace("_TIME_",start);
 
     request.post({
         'content-type': 'text/plain;charset=UTF-8',
@@ -157,19 +173,17 @@ function fetchCityzenData(metric,start){
         encoding : "utf8",
         form : script
     }, function httpcallback(error, response, body){
+                console.log(error);
                 if (!error && response.statusCode == 200) {
-                    retrieveIntegralValue(JSON.parse(body));
+                    return JSON.parse(body);
                 }
     });
 
 }
-
-
 /**
-<<<<<<< HEAD
  * retrieve value of the integrale and first TS
  * @param  {[type]} data [description]
- * @return {[type]}      [description]
+ * @return array with [TS,VALUE]
  */
 function retrieveIntegralValue(data){
 
@@ -179,8 +193,6 @@ function retrieveIntegralValue(data){
 }
 
 /**
-=======
->>>>>>> 93a233d... addinf fetching function with new einstein script
  * Warning: USELESS FUNCTION
  * [retrieveFirstPick cleans the array by retrieving first pick]
  * @param  {[type]} raw_data [description]
@@ -218,20 +230,14 @@ function retrieveFirstPick(raw_data){
     sortingArray(data);
 }
 
-function test_top10_value(){
-    top_10.push([12345678910, 99999 ]);
-}
-
 /**
  * This function is handling the contest between candidates.
- * Top 10 is in the array named top_10
+ * Top 3 is in the array named top_3
  * @param  {[type]} data [description]
  */
 function sortingArray(data){
 
-    test_top10_value();
-
-    var temp = top_10.concat(data);
+    var temp = top_3.concat(data);
     
     temp.sort(function compare(a, b) {
           if (a[1]<b[1])
@@ -242,8 +248,29 @@ function sortingArray(data){
           return 0;
     });
 
-    top_10=temp.slice(0,11);
-    console.log(top_10);
+    top_3=temp.slice(0,4);
+}
+
+/**
+ * [findURL find URL based on TS]
+ * @param  {[type]} data array of [TS,VALUE]
+ * @param  {[type]} URL  raw data from fetching
+ * @return {[type]} data array of [TS,VALUE,URL]
+ */
+function findURL(data,URL){
+
+// TODO
+}
+
+/**
+ * [findPlayerInfo based on TS]
+ * @param  {[type]} data array of [TS,VALUE,URL]
+ * @param  {[type]} player raw data from fetching
+ * @return {[type]}data array of [TS,VALUE,URL,PLAYER_INFO]
+ */
+function findPlayerInfo(data,player){
+
+// TODO
 }
 
 /************************************************************************************************************************
@@ -251,5 +278,5 @@ function sortingArray(data){
  ************************************************************************************************************************/
 
 app.get('/punchingball/top10', function (req, res) {
-  res.send(top_10);
+  res.send(top_3);
 })
