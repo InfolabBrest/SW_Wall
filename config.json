@@ -21,8 +21,8 @@
   },
   "cityzendata":{
     "api_url":"http://api0.cityzendata.net/api/v0/exec/einstein",
-    "token":"token",
-    "classname":"swbrest.punchingball",
+    "token":"",
+    "classname_punchingball":"swbrest.punchingball",
     "bearing":100
   }
 }

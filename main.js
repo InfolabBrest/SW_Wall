@@ -157,14 +157,16 @@ function fetchCityzenData(metric,start){
         encoding : "utf8",
         form : script
     }, function httpcallback(error, response, body){
-
                 if (!error && response.statusCode == 200) {
                     retrieveIntegralValue(JSON.parse(body));
                 }
     });
 
 }
+
+
 /**
+<<<<<<< HEAD
  * retrieve value of the integrale and first TS
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
@@ -177,6 +179,8 @@ function retrieveIntegralValue(data){
 }
 
 /**
+=======
+>>>>>>> 93a233d... addinf fetching function with new einstein script
  * Warning: USELESS FUNCTION
  * [retrieveFirstPick cleans the array by retrieving first pick]
  * @param  {[type]} raw_data [description]
