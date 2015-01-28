@@ -18,7 +18,10 @@ var Twitter = require('node-tweet-stream'),
     request = require('request'),
     urlencode = require('urlencode'),
     data_bearing = config.cityzendata.bearing,
-    top_10 = new Array();
+    top_10 = new Array(),
+    fs = require('fs'),
+    einstein_raw_script;
+
 
 /************************************************************************************************************************
  * Server Setup
@@ -124,35 +127,27 @@ t.on('error', function (err) {
  ************************************************************************************************************************/
 
 /**
- * [EinsteinMaker creates the Einstein request and return it]
- * @param {string} classname  
- * The start and end timestamps are in ISO8601 format, i.e. YYYY-MM-DDTHH:MM:SS.SSSSSSZ
- * @param {string} start
- * @param {string} stop
- * @return {string} einstein_script
+ * [creates the Einstein request]
  */
-function EinsteinMaker(start,stop) {
+fs.readFile('script.einstein', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  einstein_raw_script = data;
+  console.log(einstein_raw_script);
+einstein_raw_script = einstein_raw_script.replace("_TOKEN_",cityzendata_token);
+einstein_raw_script = einstein_raw_script.replace("_CLASS_",cityzendata_class);
+});
 
-    var script =  
-        "'"+cityzendata_token+"'\n"+
-        "'"+cityzendata_class+"'\n"+
-        "0 ->MAP\n"+
-        "'"+encodeURIComponent(start)+"'\n"+
-        "'"+encodeURIComponent(stop)+"'\n"+
-        "5 ->LIST\n"+
-        "FETCH";
-    return script;
-}
 /**
- * [fetchCityzenData fetch data from CityzenData]
- * @param  {String} einstein script
- * @return {[type]} data fetch
+ * [fetchCityzenData fetch Cityzen API]
+ * @param  {[type]} start [now - start]
+ * @return {[type]}       [description]
  */
+function fetchCityzenData(start){
 
-// Test
-fetchCityzenData(EinsteinMaker("2013-01-12T10:02:00+01:00","2016-01-12T10:08:10+01:00"));
+    einstein_raw_script = einstein_raw_script.replace("_TIME_",start);
 
-function fetchCityzenData(einstein_script){
 
     request.post({
         'content-type': 'text/plain;charset=UTF-8',

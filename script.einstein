@@ -10,10 +10,10 @@
   
 %> 'filter' STORE
 
-'$token'
-'$metric_name'
+'_TOKEN_'
+'_CLASS_'
 0 ->MAP
-NOW - $time
+NOW - _TIME_
 FETCH
 0 GET
 5000000    //  Quiet period
