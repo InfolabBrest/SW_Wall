@@ -1,0 +1,32 @@
+<%
+  '_list' STORE              // We begin by storing the list
+  $_list 0 GET                // We get the tick
+  NaN NaN NaN                // We add NaN for positions and elevation
+  
+  <% $_list 7 GET 0 GET 1000.0 < %>
+  <% 0.0 %>
+  <% $_list 7 GET 0 GET TODOUBLE %>
+  IFTE
+  
+%> 'filter' STORE
+
+'$token'
+'$metric_name'
+0 ->MAP
+NOW - $time
+FETCH
+0 GET
+5000000    //  Quiet period
+10         // Min number of values
+'subSequenceNumber'  // Label
+TIMESPLIT
+'list' STORE
+$list
+$list SIZE 1 -
+GET
+$filter MACROMAPPER 0 0 0 5 ->LIST MAP
+
+
+DUP
+0.0
+INTEGRATE
