@@ -14,7 +14,7 @@ var Twitter = require('node-tweet-stream'),
     _ = require('lodash'),
     cityzendata_token = config.cityzendata.token,
     cityzendata_url = config.cityzendata.api_url,
-    cityzendata_class = config.cityzendata.classname,
+    cityzendata_class_punchingball = config.cityzendata.classname_punchingball,
     request = require('request'),
     urlencode = require('urlencode'),
     data_bearing = config.cityzendata.bearing,
@@ -133,35 +133,51 @@ fs.readFile('script.einstein', 'utf8', function (err,data) {
   if (err) {
     return console.log(err);
   }
-  einstein_raw_script = data;
-  console.log(einstein_raw_script);
-einstein_raw_script = einstein_raw_script.replace("_TOKEN_",cityzendata_token);
-einstein_raw_script = einstein_raw_script.replace("_CLASS_",cityzendata_class);
+    einstein_raw_script = data;
+    einstein_raw_script = einstein_raw_script.replace("_TOKEN_",cityzendata_token);
+
+    fetchCityzenData(cityzendata_class_punchingball,1000000);
 });
 
 /**
  * [fetchCityzenData fetch Cityzen API]
- * @param  {[type]} start [now - start]
- * @return {[type]}       [description]
+ * @param  {[type]} start [start in sec]
+ * @param  metric name
  */
-function fetchCityzenData(start){
+function fetchCityzenData(metric,start){
 
-    einstein_raw_script = einstein_raw_script.replace("_TIME_",start);
+    var script = einstein_raw_script;
 
+    script = script.replace("_CLASS_",metric);
+    script = script.replace("_TIME_",start*1000);
 
     request.post({
         'content-type': 'text/plain;charset=UTF-8',
         url : cityzendata_url,
         encoding : "utf8",
-        form : einstein_script
+        form : script
     }, function httpcallback(error, response, body){
+
                 if (!error && response.statusCode == 200) {
-                    retrieveFirstPick(JSON.parse(body));
+                    retrieveIntegralValue(JSON.parse(body));
                 }
     });
 
 }
 /**
+ * retrieve value of the integrale and first TS
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+function retrieveIntegralValue(data){
+
+    // return [TS,VALUE]
+    return [data[0][0].v[0][0],data[0][0].v[data[0][0].v.length-1][1]]
+
+}
+
+/**
+ * Warning: USELESS FUNCTION
  * [retrieveFirstPick cleans the array by retrieving first pick]
  * @param  {[type]} raw_data [description]
  * @return {[type]}          [description]

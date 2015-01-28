@@ -13,7 +13,7 @@
 '_TOKEN_'
 '_CLASS_'
 0 ->MAP
-NOW - _TIME_
+NOW -_TIME_
 FETCH
 0 GET
 5000000    //  Quiet period
@@ -25,7 +25,6 @@ $list
 $list SIZE 1 -
 GET
 $filter MACROMAPPER 0 0 0 5 ->LIST MAP
-
 
 DUP
 0.0
