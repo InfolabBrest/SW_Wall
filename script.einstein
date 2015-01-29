@@ -1,31 +1,57 @@
+<% NOW 10000000 %> '10_last_seconds' STORE 
+<% NOW -1000 %> '1000_last_points' STORE
+
+<% '2015-01-29T09:00:00.00Z' '2015-01-29T10:00:00.00Z' %> 'time_interval' STORE
+
+
+'_TOKEN_'
+'~org.startupweekend.brest.punchingball.userId'
+0 ->MAP
+@time_interval
+FETCH
+
+// On a deux punchs ici, non anonymes, il suffit de voir qu'il y a deux valeurs sur org.startupweekend.brest.punchingball.userId
+// On va garder le premier et on va faire 10 secondes plus tard (en sachant que la vidéo ne fera que 6)
+
+'gts_userId' STORE
+$gts_userId TICKS 0 GET  // Timestamp du premier scan de badge dans l'intervale
+'timestamp' STORE
+
+'_TOKEN_'
+'~org.startupweekend.brest.punchingball.videoId'
+0 ->MAP
+$timestamp 1
+FETCH
+0 GET 'gts_videoId' STORE
+
+'_TOKEN_'
+'~org.startupweekend.brest.punchingball.acc'
+0 ->MAP
+$timestamp 10000000 +           // Plus 10 secondes
+10000000
+FETCH
+0 GET 'gts_acc' STORE
+
+// Et voilà toutes les informations néccesaires...
+
+$gts_acc $gts_userId $gts_videoId 3 ->LIST
+
+
+// MACROMAPPER to transform everything to DOUBLE
+// In theory not neccesary... but sometimes Arduino sends bad data
 <%
   '_list' STORE              // We begin by storing the list
   $_list 0 GET                // We get the tick
   NaN NaN NaN                // We add NaN for positions and elevation
-  
-  <% $_list 7 GET 0 GET 1000.0 < %>
-  <% 0.0 %>
-  <% $_list 7 GET 0 GET TODOUBLE %>
-  IFTE
-  
-%> 'filter' STORE
+  $_list 7 GET 0 GET TODOUBLE 
+%> 'to_double' STORE
 
-'_TOKEN_'
-'_CLASS_'
-0 ->MAP
-NOW -_TIME_
-FETCH
-0 GET
-5000000    //  Quiet period
-10         // Min number of values
-'subSequenceNumber'  // Label
-TIMESPLIT
-'list' STORE
-$list
-$list SIZE 1 -
-GET
-$filter MACROMAPPER 0 0 0 5 ->LIST MAP
+$gts_acc $to_double MACROMAPPER 0 0 0 5 ->LIST MAP
 
-DUP
-0.0
-INTEGRATE
+0.0 INTEGRATE // Let's integrate
+
+0 GET VALUES 'integrated' STORE
+
+// Let's take the last value
+$integrated $integrated SIZE 1 - GET 
+

@@ -14,15 +14,12 @@ var Twitter = require('node-tweet-stream'),
     _ = require('lodash'),
     cityzendata_token = config.cityzendata.token,
     cityzendata_url = config.cityzendata.api_url,
-    cityzendata_class_punchingball = config.cityzendata.classname_punchingball,
-    cityzendata_class_url = config.cityzendata.classname_url,
-    cityzendata_class_player = config.cityzendata.classname_player,
     request = require('request'),
     urlencode = require('urlencode'),
     top_3 = new Array(),
     fs = require('fs'),
-    einstein_raw_script,
-    lastfetch;
+    einstein_raw_script;
+
 
 
 /************************************************************************************************************************
@@ -126,17 +123,18 @@ t.on('error', function (err) {
 /************************************************************************************************************************
  * CityzenData RUNTIME
  ************************************************************************************************************************/
+top_3.push([1422564139000,999,"aJFsQfhbKCU",1]);
+top_3.push([1422564139000,100,"WuUUqHzVEMs",2]);
+top_3.push([1422564179000,1,"aJFsQfhbKCU",3]);
 fs.readFile('script.einstein', 'utf8', function (err,data) {
   if (err) {
     return console.log(err);
   }
     einstein_raw_script = data;
-    einstein_raw_script = einstein_raw_script.replace("_TOKEN_",cityzendata_token);
+    einstein_raw_script = einstein_raw_script.replace(/_TOKEN_/g,cityzendata_token);
 });
 
-setInterval(function() {
-        fetchCityzenData(cityzendata_class_punchingball,30*1000);
-    }, 2*1000);
+setInterval(fetchCityzenData, 10*1000);
 
 /************************************************************************************************************************
  * CityzenData Functions
@@ -147,45 +145,31 @@ setInterval(function() {
  * @param  {[type]} TS of start in ms
  * @param  metric name
  */
-function fetchCityzenData(metric,start){
-
-    var script = einstein_raw_script;
-
-    script = script.replace("_CLASS_",metric);
-    script = script.replace("_TIME_",start);
+function fetchCityzenData(){
 
     request.post({
         'content-type': 'text/plain;charset=UTF-8',
         url : cityzendata_url,
         encoding : "utf8",
-        form : script
+        form : einstein_raw_script
     }, function httpcallback(error, response, body){
-
-        if (error) {
-            console.log(error);
-            console.log(response);
-            console.log(body);
-        };
         if (!error && response.statusCode == 200) {
-            console.log(body);
-            retrieveIntegralValue(JSON.parse(body));
+            retrieveValue(JSON.parse(body));
         }
     });
 
 }
-/**
- * retrieve value of the integrale and first TS
- * @param  {[type]} data [description]
- * @return array with [TS,VALUE]
- */
-function retrieveIntegralValue(data){
 
-    // First TS is the important one !
-    var ts = data[0][0].v[0][0];
-    // Value for the integral is the last one
-    var value = data[0][0].v[data[0][0].v.length-1][1];
-    console.log(ts,value);
+function retrieveValue(data){
 
+
+    var ts = data[1][0].v[0][0];
+    var punch = data[0];
+    var videoId = data[1][2].v[0][1];
+    var userid = data[1][1][0].v[0][1];
+
+    console.log([ts,punch,videoId,userid]);
+    sortingArray([ts,punch,videoId,userid]);
 }
 
 /**
@@ -207,29 +191,11 @@ function sortingArray(data){
     });
 
     top_3=temp.slice(0,4);
+    console.log(top_3);
 }
 
-/**
- * [findURL find URL based on TS]
- * @param  {[type]} data array of [TS,VALUE]
- * @param  {[type]} URL  raw data from fetching
- * @return {[type]} data array of [TS,VALUE,URL]
- */
-function findURL(data,URL){
 
-// TODO
-}
 
-/**
- * [findPlayerInfo based on TS]
- * @param  {[type]} data array of [TS,VALUE,URL]
- * @param  {[type]} player raw data from fetching
- * @return {[type]}data array of [TS,VALUE,URL,PLAYER_INFO]
- */
-function findPlayerInfo(data,player){
-
-// TODO
-}
 
 /************************************************************************************************************************
  * Routing function for PunchingBall
