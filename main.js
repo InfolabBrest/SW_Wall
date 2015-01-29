@@ -135,22 +135,9 @@ fs.readFile('script.einstein', 'utf8', function (err,data) {
 });
 
 setInterval(function() {
+        fetchCityzenData(cityzendata_class_punchingball,30*1000);
+    }, 2*1000);
 
-        var punchingball = fetchCityzenData(cityzendata_class_punchingball,30*1000);
-        var url = fetchCityzenData(cityzendata_class_url,30*1000);
-        var player = fetchCityzenData(cityzendata_class_player,30*1000);
-
-        // Retrieve array of [TS,VALUE]
-        var data = retrieveIntegralValue(punchingball);
-        // Retrieve array of [TS,VALUE,URL]
-        data = findURL(data,url);
-        // Retrieve array of [TS,VALUE,URL,PLAYER_INFO]
-        data = findPlayerInfo(data,player);
-
-        // Add data to top 3
-        sortingArray(data);
-
-    }, 30*1000);
 /************************************************************************************************************************
  * CityzenData Functions
  ************************************************************************************************************************/
@@ -173,10 +160,16 @@ function fetchCityzenData(metric,start){
         encoding : "utf8",
         form : script
     }, function httpcallback(error, response, body){
-                console.log(error);
-                if (!error && response.statusCode == 200) {
-                    return JSON.parse(body);
-                }
+
+        if (error) {
+            console.log(error);
+            console.log(response);
+            console.log(body);
+        };
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+            retrieveIntegralValue(JSON.parse(body));
+        }
     });
 
 }
@@ -187,47 +180,12 @@ function fetchCityzenData(metric,start){
  */
 function retrieveIntegralValue(data){
 
-    // return [TS,VALUE]
-    return [data[0][0].v[0][0],data[0][0].v[data[0][0].v.length-1][1]]
+    // First TS is the important one !
+    var ts = data[0][0].v[0][0];
+    // Value for the integral is the last one
+    var value = data[0][0].v[data[0][0].v.length-1][1];
+    console.log(ts,value);
 
-}
-
-/**
- * Warning: USELESS FUNCTION
- * [retrieveFirstPick cleans the array by retrieving first pick]
- * @param  {[type]} raw_data [description]
- * @return {[type]}          [description]
- * https://api0.cityzendata.net/doc/api/gts-output-format
- */
-function retrieveFirstPick(raw_data){
-
-    var data = new Array;
-    var first = true;
-
-    // Retrieve first pick
-    raw_data[0][0].v.forEach(function (element, index, array) {
-        if (index!=0) {
-
-            //console.log("TS="+element[0] +" && VALUE="+element[1]);
-            
-            /**
-             * First if stands for the acceleration. If it decreases, 
-             * we need to take the n-1 value if first is true.
-             * Then a bearing is triggered, and it'll be set to true only
-             * if acceleration value goes under the bearing, 
-             */
-            if (element[1]<array[index-1][1] && first && element[1]>data_bearing) {
-                data[data.length] = [array[index-1][0],array[index-1][1]];
-                first = false;
-                //console.log("ajout de "+[array[index-1][0]+":"+array[index-1][1]]);
-            }else{
-                if (element[1]<data_bearing) {
-                    first = true;
-                };
-            };
-        };
-    }); 
-    sortingArray(data);
 }
 
 /**

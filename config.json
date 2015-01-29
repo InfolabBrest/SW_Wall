@@ -22,8 +22,8 @@
   "cityzendata":{
     "api_url":"http://api0.cityzendata.net/api/v0/exec/einstein",
     "token":"",
-    "classname_punchingball":"swbrest.punchingball",
-    "classname_url":"swbrest.url",
-    "classname_player":"swbrest.player"
+    "classname_punchingball":"org.startupweekend.brest.punchingball.acc",
+    "classname_url":"org.startupweekend.brest.punchingball.userId",
+    "classname_player":"org.startupweekend.brest.punchingball.videoId"
   }
 }
