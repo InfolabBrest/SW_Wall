@@ -18,6 +18,7 @@ var Twitter = require('node-tweet-stream'),
     urlencode = require('urlencode'),
     top_3 = new Array(),
     fs = require('fs'),
+    last_value,
     einstein_raw_script;
 
 
@@ -123,9 +124,9 @@ t.on('error', function (err) {
 /************************************************************************************************************************
  * CityzenData RUNTIME
  ************************************************************************************************************************/
-top_3.push([1422564139000,999,"aJFsQfhbKCU",1]);
-top_3.push([1422564139000,100,"WuUUqHzVEMs",2]);
-top_3.push([1422564179000,1,"aJFsQfhbKCU",3]);
+sortingArray([1422564139000,1,"aJFsQfhbKCU",1]);
+//sortingArray([1422564139000,2,"WuUUqHzVEMs",2]);
+//sortingArray([1422564179000,3,"aJFsQfhbKCU",3]);
 fs.readFile('script.einstein', 'utf8', function (err,data) {
   if (err) {
     return console.log(err);
@@ -168,7 +169,6 @@ function retrieveValue(data){
     var videoId = data[1][2].v[0][1];
     var userid = data[1][1][0].v[0][1];
 
-    console.log([ts,punch,videoId,userid]);
     sortingArray([ts,punch,videoId,userid]);
 }
 
@@ -179,19 +179,22 @@ function retrieveValue(data){
  */
 function sortingArray(data){
 
-    var temp = top_3.concat(data);
-    
-    temp.sort(function compare(a, b) {
-          if (a[1]<b[1])
-             return 1;
-          if (a[1]>b[1])
-             return -1;
-          // a doit être égal à b
-          return 0;
-    });
-
-    top_3=temp.slice(0,4);
-    console.log(top_3);
+    if (last_value == data[0]) {
+        console.log("meme donnée");
+    } else{
+            top_3.push(data);
+            last_value = data[0];
+            top_3.sort(function compare(a, b) {
+                if (a[1]<b[1])
+                      return 1;
+                 if (a[1]>b[1])
+                       return -1;
+                // a doit être égal à b
+                 return 0;
+            });
+            top_3.slice(0,4);
+    };
+console.log(top_3);
 }
 
 
@@ -202,5 +205,6 @@ function sortingArray(data){
  ************************************************************************************************************************/
 
 app.get('/punchingball/top10', function (req, res) {
+    console.log(top_3);
   res.send(top_3);
 })
