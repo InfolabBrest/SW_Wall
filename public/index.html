@@ -11,10 +11,11 @@
 <body>
 
 <div class="container">
-    <div class="events" ng-controller='punchingBallController'>
-        <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube> 
-        <h2>{{punch}}</h2>
-        <p>Player status is: {{yt.playerStatus}}</p> 
+    <div class="events">
+        <div class="youtube" ng-controller='punchingBallController'>
+            <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube> 
+            <h2>Top {{i+1}}<br>{{punch}}</h2>
+        </div>
     </div>
 
     <div class="gsb">

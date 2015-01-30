@@ -12,10 +12,10 @@ myApp.controller('punchingBallController', function($scope, YT_event,$http) {
   $scope.yt = {
     width: 300, 
     height: 240, 
-    videoid: "aJFsQfhbKCU",
+    videoid: "cUJ2i0virwo",
     playerStatus: "NOT PLAYING"
   };
-  $scope.top_3 = new Array();
+  $scope.topPunch = new Array();
   $scope.i = 0;
   $scope.punch = 0;
 
@@ -28,21 +28,22 @@ myApp.controller('punchingBallController', function($scope, YT_event,$http) {
   $scope.$on(YT_event.STATUS_CHANGE, function(event, data) {
       $scope.yt.playerStatus = data;
       if (data=='ENDED') {
-          console.log("video ended");
-          var mod = $scope.top_3.length;
-          console.log(mod);
-          console.log($scope.i);
-          console.log($scope.top_3[$scope.i][2]);
-          $scope.i = ($scope.i+1)%mod;
-          $scope.yt.videoid = $scope.top_3[$scope.i][2];
-          $scope.punch = $scope.top_3[$scope.i][1];
+        if ($scope.topPunch.length==1 && $scope.yt.videoid!="cUJ2i0virwo") {
           $scope.sendControlEvent(YT_event.PLAY);
+        } else{
+          console.log("video ended");
+          var mod = $scope.topPunch.length;
+          $scope.i = ($scope.i+1)%mod;
+          console.log($scope.topPunch);
+          $scope.yt.videoid = $scope.topPunch[$scope.i][2];
+          $scope.punch = $scope.topPunch[$scope.i][1];
+        };
       };
   });
 $scope.refresh_top = function (){
     $http.get('/punchingball/top10').
       success(function(data, status, headers, config) {
-        $scope.top_3 = data;
+        $scope.topPunch = data;
       }).
       error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
@@ -50,7 +51,7 @@ $scope.refresh_top = function (){
       });
   };
   $scope.refresh_top;
-  setInterval($scope.refresh_top, 4*1000);
+  setInterval($scope.refresh_top, 10*1000);
 });
 
 myApp.directive('youtube', function($window, YT_event) {
@@ -84,7 +85,7 @@ myApp.directive('youtube', function($window, YT_event) {
             color: "white",
             iv_load_policy: 3,
             showinfo: 0,
-            controls: 0
+            controls: 1
           },
           
           height: scope.height,
@@ -142,16 +143,18 @@ myApp.directive('youtube', function($window, YT_event) {
       });
 
       scope.$on(YT_event.STOP, function () {
-        player.seekTo(0);
-        player.stopVideo();
+                player.cueVideoById(scope.videoid);
+        player.playVideo();
       });
 
       scope.$on(YT_event.PLAY, function () {
+                player.cueVideoById(scope.videoid);
         player.playVideo();
       }); 
 
       scope.$on(YT_event.PAUSE, function () {
-        player.pauseVideo();
+               player.cueVideoById(scope.videoid);
+        player.playVideo();
       });  
 
     }  

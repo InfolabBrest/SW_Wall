@@ -16,10 +16,11 @@ var Twitter = require('node-tweet-stream'),
     cityzendata_url = config.cityzendata.api_url,
     request = require('request'),
     urlencode = require('urlencode'),
-    top_3 = new Array(),
+    topPunch = new Array(),
     fs = require('fs'),
     last_value,
-    einstein_raw_script;
+    einstein_raw_script,
+    PunchSize = 5;
 
 /************************************************************************************************************************
  * Server Setup
@@ -170,16 +171,16 @@ function retrieveValue(data){
 
 /**
  * This function is handling the contest between candidates.
- * Top 3 is in the array named top_3
+ * Top 3 is in the array named topPunch
  * @param  {[type]} data [description]
  */
 function sortingArray(data){
 
     if (last_value == data[0]) {
     } else{
-            top_3.push(data);
+            topPunch.push(data);
             last_value = data[0];
-            top_3.sort(function compare(a, b) {
+            topPunch.sort(function compare(a, b) {
                 if (a[1]<b[1])
                       return 1;
                  if (a[1]>b[1])
@@ -187,9 +188,9 @@ function sortingArray(data){
                 // a doit être égal à b
                  return 0;
             });
-            top_3.slice(0,4);
+            topPunch.slice(0,PunchSize+1);
     };
-console.log(top_3);
+console.log(topPunch);
 }
 
 /************************************************************************************************************************
@@ -197,5 +198,5 @@ console.log(top_3);
  ************************************************************************************************************************/
 
 app.get('/punchingball/top10', function (req, res) {
-  res.send(top_3);
+  res.send(topPunch);
 })
