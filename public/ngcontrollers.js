@@ -28,6 +28,7 @@ myApp.controller('punchingBallController', function($scope, YT_event,$http) {
   $scope.$on(YT_event.STATUS_CHANGE, function(event, data) {
       $scope.yt.playerStatus = data;
       if (data=='ENDED') {
+          console.log("video ended");
           var mod = $scope.top_3.length;
           console.log(mod);
           console.log($scope.i);
@@ -136,6 +137,7 @@ myApp.directive('youtube', function($window, YT_event) {
         }
         
         player.cueVideoById(scope.videoid);
+        player.playVideo();
       
       });
 
