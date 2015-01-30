@@ -1,12 +1,5 @@
-var Twitter = require('node-tweet-stream'),
-    save = require("./top.txt"),
+var save = require("./top.txt"),
     config = require('./config.json'),
-    t = new Twitter({
-        consumer_key: config.twitter.consumer_key,
-        consumer_secret: config.twitter.consumer_secret,
-        token: config.twitter.token,
-        token_secret: config.twitter.token_secret
-    }),
     express = require('express'),
     app = express(),
     server = require('http').createServer(app),
@@ -54,72 +47,8 @@ app.use(function errorHandler (err, req, res, next) {
 });
 
 /************************************************************************************************************************
- * Loading config
- ************************************************************************************************************************/
-config.wall = _.map(config.wall, function(hash) {
-    return hash.toLowerCase();
-});
-config.battle = _.map(config.battle, function(hash) {
-    /*if( hash[0] !== '#')
-        hash = '#' + hash;*/
-
-    return hash.toLowerCase();
-});
-
-var tracking = _.union(config.wall, config.battle),
-    battleCount = _.zipObject(config.battle, _.range(0, config.battle.length, 0));
-
-console.log(battleCount);
-_.forEach(tracking, function(hash) {
-    t.track(hash);
-});
-
-
-/************************************************************************************************************************
  * App
  ************************************************************************************************************************/
-io.on('connection', function (socket) {
-    socket.join('clients');
-
-    socket.on('disconnect', function () {
-        console.log('a user disconnect');
-    });
-
-    socket.emit('battle', battleCount);
-
-    console.log('a user connect');
-});
-
-t.on('tweet', function (tweet) {
-    var tl = {
-        text: tweet.text,
-        time: tweet.timestamp_ms,
-        user: {
-            name: tweet.user.name,
-            screen_name: tweet.user.screen_name,
-            image: tweet.user.profile_image_url
-        }
-    };
-
-    var lowText = tl.text.toLowerCase();
-    _.forEach(config.wall, function(hash) {
-        if(lowText.indexOf(hash) !== -1) {
-            io.to('clients').emit('tweet', tl);
-            return false;
-        }
-    });
-
-    _.forEach(config.battle, function(hash) {
-        if(lowText.indexOf(hash) !== -1) {
-            battleCount[hash] += 1;
-            io.to('clients').emit('battle', battleCount);
-        }
-    });
-});
-
-t.on('error', function (err) {
-    console.log('Oh no')
-});
 
 /************************************************************************************************************************
  * CityzenData RUNTIME
@@ -202,7 +131,7 @@ fs.writeFile("top.txt",JSON.stringify(topPunch), function(err) {
     if(err) {
         console.log(err);
     }
-}); 
+});
 }
 
 /************************************************************************************************************************

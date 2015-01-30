@@ -13,53 +13,18 @@
 <div class="container">
     <div class="events">
         <div class="youtube" ng-controller='punchingBallController'>
-            <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube> 
+            <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
             <h2>Top {{i+1}}<br>{{punch}}</h2>
         </div>
     </div>
 
     <div class="gsb">
-        <img class="logo" src="img/gsb.png"/>
         <div id="ranking"></div>
     </div>
     <div class="coffee">
 
     </div>
-    <ul id="tweets">
-        <li>
-            <div class="tweet">
-                <div class="pic">
-                    <img src="http://pbs.twimg.com/profile_images/538998297273573376/fSDN_hgM_normal.jpeg"/>
-                </div>
-                <div class="content">
-                    <h1>Kevin GEORGES</h1>
-
-                    <h2></h2>
-
-
-                    <p><span>@D33d33k</span>&nbsp;-&nbsp;hey i bought us this pizza dig in but wait it\'s gay pizza so only i can eat it thanks everyone bye.<!--100--></p>
-
-                    <div class="underline"></div>
-                </div>
-            </div>
-        </li>
-        <li>
-            <div class="tweet">
-                <div class="pic">
-                    <img src="http://pbs.twimg.com/profile_images/538998297273573376/fSDN_hgM_normal.jpeg"/>
-                </div>
-                <div class="content">
-                    <h1>Kevin GEORGES</h1>
-
-                    <h2></h2>
-
-
-                    <p><span>@D33d33k</span>&nbsp;-&nbsp;hey i bought us this pizza dig in but wait it\'s gay pizza so only i can eat it thanks everyone bye.<!--100--></p>
-                </div>
-                <div class="underline"></div>
-            </div>
-        </li>
-    </ul>
+    <ul id="tweets"></ul>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>

@@ -1,11 +1,11 @@
 $(function ()
 {
-    var socket = io();
+    var socket = io('http://hashtagbattle.d33d33.fr/');
 
     var tweets = $('#tweets');
 
     console.log('loaded');
-
+    socket.emit('register', '#swbrest');
 
     socket.on('tweet', function (data)
     {
@@ -32,7 +32,6 @@ $(function ()
 
     socket.on('battle', function (data)
     {
-        console.log(data);
         var max = 0,
             hashArr = [];
 
@@ -50,21 +49,28 @@ $(function ()
         var ranking = $('#ranking');
         ranking.empty();
 
-        var i = 0;
+        var rank = 1;
         $.each(hashArr, function (i, v)
         {
-            console.log(v);
+            if (v.hash == '_time')
+            {
+                return;
+            }
+
+            var city = v.hash.substr(3);
+
             var tmp = $('<div class="rank"></div>');
-            tmp.append( '<span class="index"><span>' + (i+1) + '</span></span>' );
-            tmp.append( '<span class="hash">#' + v.hash + '</span>' );
-            tmp.append( '<span class="score">' + v.value + '</span>' );
-            tmp.append( '<div class="underline"></div>' );
+            tmp.append('<span class="icon"><span><img src="img/' + city + '.jpg"></span></span>');
+            //tmp.append('<span class="index"><span>' + (rank++) + '</span></span>');
+            tmp.append('<span class="city">' + city + '</span>');
+            tmp.append('<span class="score">' + v.value + '</span>');
+            tmp.append('<div class="underline"></div>');
 
             ranking.append(tmp);
         });
     });
     socket.on('punchingBall', function (data)
     {
-    
+
     });
 });
