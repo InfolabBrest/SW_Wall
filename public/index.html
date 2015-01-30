@@ -11,28 +11,10 @@
 <body>
 
 <div class="container">
-    <div class="events" ng-controller='punchingBallTop10Controller'>
-        <ul id="top_horizontal">
-            <h3>Top 3</h3>
-            <li ng-repeat="player in top_3">
-                <div class="top_element" >
-                    <div>
-                        <img style="width:100px,display:block" src="http://fc01.deviantart.net/fs71/f/2013/260/7/2/gif___yoda_200x200_by_robbiebr-d6mmvio.gif"> 
-                    </div>
-                    <div>
-                        <p style="text-align:center">{{player[1]}}</p>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <ul id="top_vertical" style="float:right">
-            <h3>Other value</h3>
-            <li ng-repeat="player in top_10">
-                <div>
-                    <p>{{player[1]}}</p>
-                </div>
-            </li>
-        </ul>
+    <div class="events" ng-controller='punchingBallController'>
+        <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube> 
+        <h2>{{punch}}</h2>
+        <p>Player status is: {{yt.playerStatus}}</p> 
     </div>
 
     <div class="gsb">
