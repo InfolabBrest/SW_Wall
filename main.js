@@ -1,4 +1,5 @@
 var Twitter = require('node-tweet-stream'),
+    save = require("./top.txt"),
     config = require('./config.json'),
     t = new Twitter({
         consumer_key: config.twitter.consumer_key,
@@ -123,6 +124,12 @@ t.on('error', function (err) {
 /************************************************************************************************************************
  * CityzenData RUNTIME
  ************************************************************************************************************************/
+fs.readFile('top.txt', 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  topPunch = JSON.parse(data);
+});
 
 fs.readFile('script.einstein', 'utf8', function (err,data) {
   if (err) {
@@ -131,6 +138,7 @@ fs.readFile('script.einstein', 'utf8', function (err,data) {
     einstein_raw_script = data;
     einstein_raw_script = einstein_raw_script.replace(/_TOKEN_/g,cityzendata_token);
 });
+
 
 setInterval(fetchCityzenData, 10*1000);
 
@@ -190,7 +198,11 @@ function sortingArray(data){
             });
             topPunch.slice(0,PunchSize+1);
     };
-console.log(topPunch);
+fs.writeFile("top.txt",JSON.stringify(topPunch), function(err) {
+    if(err) {
+        console.log(err);
+    }
+}); 
 }
 
 /************************************************************************************************************************
