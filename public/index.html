@@ -11,13 +11,12 @@
 <body>
 
 <div class="container">
-    <div class="events">
-        <div class="youtube" ng-controller='punchingBallController'>
+    <div class="events" ng-controller='punchingBallController'>
+        <div class="youtube">
             <youtube width="{{yt.width}}" height="{{yt.height}}" videoid="{{yt.videoid}}"></youtube>
-            <h2>Top {{i+1}}<br>{{punch}}</h2>
+            <h2>Top {{i+1}}<br>{{punch}}<br><a ng-href="https://www.youtube.com/watch?v={{yt.videoid}}" target="_blank">lien de la vidéo</a></h2>
         </div>
     </div>
-
     <div class="gsb">
         <div id="ranking"></div>
     </div>

@@ -14,7 +14,8 @@ var save = require("./top.txt"),
     fs = require('fs'),
     last_value,
     einstein_raw_script,
-    PunchSize = 5;
+    PunchSize = 5,
+    last_fetch;
 
 /************************************************************************************************************************
  * Server Setup
@@ -88,7 +89,10 @@ function fetchCityzenData(){
         encoding : "utf8",
         form : einstein_raw_script
     }, function httpcallback(error, response, body){
+        console.log(body);
         if (!error && response.statusCode == 200) {
+
+            //if (body:!) {};
             retrieveValue(JSON.parse(body));
         }
     });
@@ -97,9 +101,13 @@ function fetchCityzenData(){
 
 function retrieveValue(data){
 
+    if (last_fetch == data) {
+        return;
+    };
+    last_fetch = data;
 
     var ts = data[1][0].v[0][0];
-    var punch = data[0];
+    var punch = data[0][0].v[data[0][0].v.length-1][1];
     var videoId = data[1][2].v[0][1];
     var userid = data[1][1][0].v[0][1];
 
@@ -125,13 +133,14 @@ function sortingArray(data){
                 // a doit être égal à b
                  return 0;
             });
-            topPunch.slice(0,PunchSize+1);
+            topPunch = topPunch.slice(0,PunchSize);
     };
 fs.writeFile("top.txt",JSON.stringify(topPunch), function(err) {
     if(err) {
         console.log(err);
     }
 });
+console.log(topPunch);
 }
 
 /************************************************************************************************************************

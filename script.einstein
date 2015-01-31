@@ -1,13 +1,10 @@
-<% NOW 10000000 %> '10_last_seconds' STORE 
-<% NOW -1000 %> '1000_last_points' STORE
+<% NOW 10000000 %> '10_last_seconds' STORE
+<% NOW -1 %> '1_last_points' STORE
 
-<% '2015-01-29T09:00:00.00Z' '2015-01-29T10:00:00.00Z' %> 'time_interval' STORE
-
-
-'_TOKEN_'
+'PkCdFG34fsfJ2S0dYLvhR5DQWFVgqSSk1zO..X3l4Pz5rjmVO.7sQe09NSzJn55DSNSH6gjxiO2hH5SFzfePDakLJX9kXju9tZ5DPE9kMjq_uZbb6w1o35m_XgTU6eIcW_QOjYYGfOc'
 '~org.startupweekend.brest.punchingball.userId'
 0 ->MAP
-@time_interval
+@1_last_points
 FETCH
 
 // On a deux punchs ici, non anonymes, il suffit de voir qu'il y a deux valeurs sur org.startupweekend.brest.punchingball.userId
@@ -17,14 +14,14 @@ FETCH
 $gts_userId TICKS 0 GET  // Timestamp du premier scan de badge dans l'intervale
 'timestamp' STORE
 
-'_TOKEN_'
-'~org.startupweekend.brest.punchingball.videoId'
+'PkCdFG34fsfJ2S0dYLvhR5DQWFVgqSSk1zO..X3l4Pz5rjmVO.7sQe09NSzJn55DSNSH6gjxiO2hH5SFzfePDakLJX9kXju9tZ5DPE9kMjq_uZbb6w1o35m_XgTU6eIcW_QOjYYGfOc'
+'~org.startupweekend.brest.punchingball.videoUrl'
 0 ->MAP
 $timestamp 1
 FETCH
 0 GET 'gts_videoId' STORE
 
-'_TOKEN_'
+'PkCdFG34fsfJ2S0dYLvhR5DQWFVgqSSk1zO..X3l4Pz5rjmVO.7sQe09NSzJn55DSNSH6gjxiO2hH5SFzfePDakLJX9kXju9tZ5DPE9kMjq_uZbb6w1o35m_XgTU6eIcW_QOjYYGfOc'
 '~org.startupweekend.brest.punchingball.acc'
 0 ->MAP
 $timestamp 10000000 +           // Plus 10 secondes
@@ -50,8 +47,7 @@ $gts_acc $to_double MACROMAPPER 0 0 0 5 ->LIST MAP
 
 0.0 INTEGRATE // Let's integrate
 
-0 GET VALUES 'integrated' STORE
+//0 GET VALUES 'integrated' STORE
 
 // Let's take the last value
-$integrated $integrated SIZE 1 - GET 
-
+//$integrated $integrated SIZE 1 - GET 

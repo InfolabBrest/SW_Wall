@@ -184,3 +184,7 @@ html, body, .container, .row, .col-md-8 {
     top: -32%;
     margin-left: 98px;
 }
+
+.youtube h2 a{
+    color:white;
+}
