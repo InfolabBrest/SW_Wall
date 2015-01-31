@@ -14,7 +14,7 @@ var save = require("./top.txt"),
     fs = require('fs'),
     last_value,
     einstein_raw_script,
-    PunchSize = 5,
+    PunchSize = 10,
     last_fetch;
 
 /************************************************************************************************************************
